@@ -193,6 +193,7 @@ int main()
     push_end(la1, scp1);
     insert_index_l(la1, scp2, 1);
     show_l(la1);
+    desstructor_l(la1);
     return 0;
 }
 
