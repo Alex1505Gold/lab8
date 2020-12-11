@@ -61,17 +61,16 @@ unsigned int size_of_rl(Ring_list_struct<T>& rl)
 template <typename T>
 void push_begin(Ring_list_struct<T>& rl, T n)
 {
+
+    Ring_list_element<T>* newRl_e = new Ring_list_element<T>;
+    newRl_e->value = n;
     if (rl.rl_begin == nullptr) {
-        Ring_list_element<T>* newRl_e = new Ring_list_element<T>;
-        newRl_e->value = n;
         rl.rl_begin = newRl_e;
         rl.rl_end = newRl_e;
         newRl_e->rle_next = newRl_e;
         newRl_e->rle_prev = newRl_e;
     }
     else {
-        Ring_list_element<T>* newRl_e = new Ring_list_element<T>;
-        newRl_e->value = n;
         rl.rl_begin->rle_prev = newRl_e;
         newRl_e->rle_next = rl.rl_begin;
         rl.rl_begin = newRl_e;
@@ -82,17 +81,16 @@ void push_begin(Ring_list_struct<T>& rl, T n)
 template <typename T>
 void push_end(Ring_list_struct<T>& rl, T n)
 {
+
+    Ring_list_element<T>* newRl_e = new Ring_list_element<T>;
+    newRl_e->value = n;
     if (rl.rl_begin == nullptr) {
-        Ring_list_element<T>* newRl_e = new Ring_list_element<T>;
-        newRl_e->value = n;
         rl.rl_begin = newRl_e;
         rl.rl_end = newRl_e;
         newRl_e->rle_next = newRl_e;
         newRl_e->rle_prev = newRl_e;
     }
     else {
-        Ring_list_element<T>* newRl_e = new Ring_list_element<T>;
-        newRl_e->value = n;
         rl.rl_end->rle_next = newRl_e;
         newRl_e->rle_prev = rl.rl_end;
         rl.rl_end = newRl_e;
@@ -104,7 +102,7 @@ template <typename T>
 void insert_index(Ring_list_struct<T>& rl, T n, unsigned int i)
 {
     unsigned int counter = 0;
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
     while (counter != i)
     {
@@ -122,9 +120,10 @@ void insert_index(Ring_list_struct<T>& rl, T n, unsigned int i)
 template <typename T>
 void insert_pointer(Ring_list_struct<T>& rl, T n, Ring_list_element<T>* i)
 {
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
     while (current != i) current = current->rle_next;
+    current = current->rle_next;
     Ring_list_element<T>* newRl_e = new Ring_list_element<T>;
     newRl_e->value = n;
     newRl_e->rle_prev = current->rle_prev;
@@ -139,7 +138,7 @@ T pop_begin(Ring_list_struct<T>& rl)
     rl.rl_end->rle_next = rl.rl_begin->rle_next;
     rl.rl_begin->rle_next->rle_prev = rl.rl_end;
     T rez = rl.rl_begin->value;
-    Ring_list_element<T>* tmp = new Ring_list_element<T>;
+    Ring_list_element<T>* tmp;
     tmp = rl.rl_begin->rle_next;
     delete rl.rl_begin;
     rl.rl_begin = tmp;
@@ -152,7 +151,7 @@ T pop_end(Ring_list_struct<T>& rl)
     rl.rl_end->rle_prev->rle_next = rl.rl_begin;
     rl.rl_begin->rle_prev = rl.rl_end->rle_prev;
     T rez = rl.rl_end->value;
-    Ring_list_element<T>* tmp = new Ring_list_element<T>;
+    Ring_list_element<T>* tmp;
     tmp = rl.rl_end->rle_prev;
     delete rl.rl_end;
     rl.rl_end = tmp;
@@ -196,7 +195,7 @@ template <typename T>
 T find_value(Ring_list_struct<T>& rl, unsigned int i)
 {
     unsigned int counter = 0;
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
     while (counter != i)
     {
@@ -209,7 +208,7 @@ T find_value(Ring_list_struct<T>& rl, unsigned int i)
 template <typename T>
 unsigned int find_pos(Ring_list_struct<T>& rl, T n)
 {
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
     unsigned int i = 0;
     while (current->value != n) {
@@ -222,34 +221,39 @@ unsigned int find_pos(Ring_list_struct<T>& rl, T n)
 template <typename T>
 void show_list(Ring_list_struct<T>& rl)
 {
-    Ring_list_element<T>* current = new Ring_list_element<T>;
-    current = rl.rl_begin;
-    unsigned int i = 0;
-    std::cout << "--------------" << std::endl;
-    std::cout << i << ": " << current->value << std::endl;
-    ++i;
-    while (current != rl.rl_end) {
-        current = current->rle_next;
+    if (rl.rl_begin == nullptr)
+    {
+        std::cout << "List is empty" << std::endl;
+    }
+    else
+    {
+        Ring_list_element<T>* current;
+        current = rl.rl_begin;
+        unsigned int i = 0;
+        std::cout << "--------------" << std::endl;
         std::cout << i << ": " << current->value << std::endl;
         ++i;
+        while (current != rl.rl_end) {
+            current = current->rle_next;
+            std::cout << i << ": " << current->value << std::endl;
+            ++i;
+        }
+        std::cout << "--------------" << std::endl;
     }
-    std::cout << "--------------" << std::endl;
 }
 
 template <typename T>
 void destructor_rl(Ring_list_struct<T>& rl)
 {
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
-    unsigned int count = size_of_rl(rl);
-    unsigned int counter = 0;
-    while (counter != count)
+    while (current != rl.rl_end)
     {
         current = current->rle_next;
         delete rl.rl_begin;
         rl.rl_begin = current;
-        ++counter;
     }
+    delete current;
 }
 
 int main()
@@ -257,6 +261,7 @@ int main()
     //проверка для int
     Ring_list_struct<int> rl0;
     constructor_rl(rl0);
+    show_list(rl0);
     push_end(rl0, 3);
     push_begin(rl0, 10);
     push_begin(rl0, 4);
