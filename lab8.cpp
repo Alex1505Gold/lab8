@@ -45,7 +45,7 @@ void constructor_rl(Ring_list_struct<T>& rl)
 template <typename T>
 unsigned int size_of_rl(Ring_list_struct<T>& rl)
 {
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
     if (current == nullptr) return 0;
     else {
@@ -162,7 +162,7 @@ template <typename T>
 T pop_index(Ring_list_struct<T>& rl, unsigned int i)
 {
     unsigned int counter = 0;
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
     //std::cout << i << std::endl;
     while (counter != i)
@@ -181,7 +181,7 @@ T pop_index(Ring_list_struct<T>& rl, unsigned int i)
 template <typename T>
 T pop_index_pointer(Ring_list_struct<T>& rl, Ring_list_element<T>* i)
 {
-    Ring_list_element<T>* current = new Ring_list_element<T>;
+    Ring_list_element<T>* current;
     current = rl.rl_begin;
     while (current != i) current = current->rle_next;
     T rez = current->value;
